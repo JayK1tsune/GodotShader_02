@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bxxa4pyxkuwhh"]
+[gd_scene load_steps=15 format=3 uid="uid://bxxa4pyxkuwhh"]
 
 [ext_resource type="Shader" uid="uid://demitq1c8x2g8" path="res://Grass.tres" id="1_e7tq7"]
 [ext_resource type="PackedScene" uid="uid://b55cwar6isd7m" path="res://Grass.glb" id="2_rq708"]
+[ext_resource type="Script" path="res://Collison.gd" id="2_wef21"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_cxcpi"]
 noise_type = 0
@@ -62,16 +63,38 @@ albedo_color = Color(0.0588235, 0.141176, 0.0627451, 1)
 material = SubResource("StandardMaterial3D_x1nv8")
 size = Vector2(30, 30)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_eyipt"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_p6i01"]
+
 [node name="Node3D" type="Node3D"]
 
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
 material_override = SubResource("ShaderMaterial_6nhtm")
 cast_shadow = 0
 multimesh = SubResource("MultiMesh_yn4i2")
+script = ExtResource("2_wef21")
 
 [node name="GrassBase" type="MeshInstance3D" parent="MultiMeshInstance3D"]
 mesh = SubResource("PlaneMesh_4mya3")
 
 [node name="Grass" parent="." instance=ExtResource("2_rq708")]
+
+[node name="gRASS" parent="Grass" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.20513, 0)
+visible = false
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.849893, 0.526956, 0, -0.526956, 0.849893, 0.065, 7.799, 15.115)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.30247, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.09554, 0)
+shape = SubResource("SphereShape3D_eyipt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("SphereMesh_p6i01")
 
 [editable path="Grass"]
